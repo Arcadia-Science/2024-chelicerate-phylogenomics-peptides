@@ -216,6 +216,52 @@ rule blastp_peptide_predictions_against_antipruritic_peptides:
 
 
 #########################################################
+## Compare against tick salivary gland predicted peptides
+#########################################################
+"""
+This set of rules compares peptides predicted from the ToT itch-associated proteins to peptides
+predicted from tick salivary gland transcriptomes.
+We expect peptides that have anti-itch functions to be expressed in tick salivary glands as this
+would allow the peptides to reach host skin where itch suppression is active.
+While we can confirm that peptides are expressed in the salivary gland, this analysis does not:
+1. Test whether the peptide is expressed in other tissues
+2. Definitively state that the peptide is not expressed in the salivary gland; the transcriptomes
+   we predicted peptides from are incomplete, so just because we don't see something doesn't mean
+   it isn't there. 
+"""
+
+
+rule make_diamond_blastdb_for_tsa_sg_peptide_predictions:
+    input: "inputs/tsa_sg_peptides.faa.gz"
+    output:
+        dmnd="inputs/databases/tsa_sg_peptides/tsa_sg_peptides.dmnd",
+    conda:
+        "envs/diamond.yml"
+    params:
+        dbprefix="inputs/databases/tsa_sg_peptides/tsa_sg_peptides",
+    shell:
+        """
+        diamond makedb --in {input} -d {params.dbprefix}
+        """
+
+
+rule blastp_peptide_predictions_against_tsa_sg_peptide_predictions:
+    input:
+        db=rules.make_diamond_blastdb_for_tsa_sg_peptide_predictions.output.dmnd,
+        faa=PEPTIGATE_OUTPUT
+    output:
+        tsv="outputs/analysis/compare_tsa_sg/tsa_sg_peptides_blastp_matches.tsv",
+    params:
+        dbprefix="inputs/databases/tsa_sg_peptides/tsa_sg_peptides",
+    conda:
+        "envs/diamond.yml"
+    shell:
+        """
+        diamond blastp -d {params.dbprefix} -q {input.faa} -o {output.tsv} --header simple \
+         --outfmt 6 qseqid sseqid full_sseq pident length qlen slen qcovhsp scovhsp mismatch gapopen qstart qend sstart send evalue bitscore
+        """
+
+#########################################################
 ## Collect outputs
 #########################################################
 
@@ -225,5 +271,6 @@ rule all:
     input:
         rules.blastp_peptide_predictions_against_human_peptide_atlas.output.tsv,
         rules.blastp_peptide_predictions_against_antipruritic_peptides.output.tsv,
+        rules.blastp_peptide_predictions_against_tsa_sg_peptide_predictions.output.tsv,
         rules.predict_antiinflammatory_bioactivity_with_autopeptideml.output.tsv,
         rules.cluster_peptigate_protein_peptide_sequences.output.tsv,
