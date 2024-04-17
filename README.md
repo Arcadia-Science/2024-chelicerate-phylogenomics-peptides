@@ -63,9 +63,24 @@ TBD but notes to self:
 
 ### Description of the folder structure
 
-### Description of how the tool works
+### Description of the analysis workflow
+
+We ran peptigate from commit `4ecd7d5d02ce9ff3216f47babf76466717105d4e` with the following command:
+
+```
+snakemake -s protein_as_input.snakefile --software-deployment-method conda -j 1 -k --configfile input_configs/tot_protein_peptigate_config.yml
+```
+
+where the `tot_protein_peptigate_config.yml` looked like:
+```
+input_dir: "inputs/"
+output_dir: "outputs/ToT"
+orfs_amino_acids: "input_data/ToT/pos_speciation_proteins.fasta"
+```
 
 ### Compute Specifications
+
+* peptigate pipeline: Ran on an AWS EC2 instance type `g4dn.2xlarge` running AMI Deep Learning Base OSS Nvidia Driver GPU AMI (Ubuntu 20.04) 20240122 (AMI ID ami-07eb000b3340966b0). Note the pipeline runs many tools that use GPUs.
 
 ## Contributing
 
