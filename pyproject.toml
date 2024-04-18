@@ -1,6 +1,6 @@
 [project]
-name = "TODO: Tool name"
-description = "TODO: Tool description"
+name = "2024-ticks-on-a-tree-peptides"
+description = "Analyzes the outputs of the chelicerate noveltree run (ticks on a tree) and subsequent trait-mapping for association with itch suppression (phylo-profiling) and predicts peptides from those proteins."
 version = "0.0.0"
 readme = "README.md"
 requires-python = ">=3.9"

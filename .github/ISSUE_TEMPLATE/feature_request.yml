@@ -1,6 +1,5 @@
-# TODO: Replace <NAME> with the name of the repo
 name: Feature request
-description: Suggest an idea for the Arcadia-Science/<NAME> pipeline
+description: Suggest an idea for the Arcadia-Science/2024-ticks-on-a-tree-peptides pipeline
 labels: enhancement
 body:
   - type: textarea
