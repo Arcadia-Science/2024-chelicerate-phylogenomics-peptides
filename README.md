@@ -86,8 +86,8 @@ This snakefile:
 * Predicts anti-inflammatory bioactivity (AutoPeptideML) for peptide predictions. The model that does this has 70% accuracy. We expect there to be some overlap between inflammation suppression and itch suppression so we include this information.
 
 
-Lastly, we ran [notebooks](./notebooks) to combine and filter the results to produce the most promising candidates for peptides that may suppress itch. 
-The notebooks were run using the `envs/tidyjupyter.yml` environment.
+Lastly, we ran the following [notebooks](./notebooks) to combine and filter the results to produce the most promising candidates for peptides that may suppress itch. 
+We ran the notebooks using the `envs/tidyjupyter.yml` environment.
 
 * [20240416-explore-peptide-results.ipynb](./notebooks/20240416-explore-peptide-results.ipynb): Initial exploration of results and metadata. This notebook is messy and was more of scratch space, but I included it because it has some useful visualizations.
 * [20240416-summarize-traitmapping-info-for-peptides.ipynb](./notebooks/20240416-summarize-traitmapping-info-for-peptides.ipynb): summarizes information about peptide predictions per orthogroup.
@@ -96,7 +96,7 @@ The notebooks were run using the `envs/tidyjupyter.yml` environment.
 We initially predicted 972 peptides from the 9,603 input protein sequences.
 We applied the following filters to identify a set of peptides that we think is the most promising to suppress itch:
 * Filters (removes) propeptides predicted by DeepPeptide. DeepPeptide uses the [UniProt definition of a propeptide](https://www.uniprot.org/help/propep), a part of a protein that is cleaved during maturation or activation. Once cleaved, a propeptide generally has no independent biological function. This reduced the number of peptide predictions to 531.
-* Filters (removes) peptides in orthogroups where no peptide had a hit to a predicted peptide from a [tick salivary gland transcriptome](https://github.com/Arcadia-Science/2024-tick-sg-peptides-tsa/). We want to target things expressed in the tick salivary gland because they are more likely to be biologically active in itch suppression. However, we don’t know if the tick salivary gland transcrpitomes we worked with are complete (many are heavily filtered) so we relaxed this filter to function at the orthogroup level. This filter reduced the number of peptides down to 289 (285 unique peptide sequences).
+* Filters (removes) peptides in orthogroups where no peptide had a hit to a predicted peptide from a [tick salivary gland transcriptome](https://github.com/Arcadia-Science/2024-tick-sg-peptides-tsa/). We want to target things expressed in the tick salivary gland because they are more likely to be biologically active in itch suppression. However, we don’t know if the tick salivary gland transcrpitomes we worked with are complete (many are heavily filtered) so we relaxed this filter to function at the orthogroup level. This filter reduced the number of peptides down to 289 (285 unique peptide sequences). These peptides were from 28 orthogroups and 198 cluster (mmseqs2 80% identity).
 
 ### Compute Specifications
 
