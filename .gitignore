@@ -8,6 +8,7 @@ envs/src/**
 /demo/output/
 /demo/input/
 /logs
+outputs/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
@@ -18,6 +19,7 @@ __pycache__/
 *.so
 
 # Distribution / packaging
+.Rhistory
 .Python
 env/
 build/
