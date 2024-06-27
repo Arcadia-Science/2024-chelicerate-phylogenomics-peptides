@@ -1,6 +1,6 @@
 import pandas as pd
 
-PEPTIGATE_OUTPUT="outputs/ToT_20240624/predictions/peptides.faa"
+PEPTIGATE_OUTPUT="outputs/ToT_20240626/predictions/peptides.faa"
 
 #########################################################
 ## Cluster peptide sequences
