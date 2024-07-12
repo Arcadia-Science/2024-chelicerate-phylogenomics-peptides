@@ -27,7 +27,8 @@ snakemake -s analyze-peptigate-outputs.snakefile --software-deployment-method co
 ## Data
 
 This repository analyzes the outputs of four previous analyses to predict peptide sequences from proteins that are associated with itch suppression.
-The four previous analyses are:
+These analyses were previous pilots or work done by others at Arcadia.
+The four upstream analyses are:
 1. [**protein-data-curation**](https://github.com/Arcadia-Science/protein-data-curation/): This repository provides a workflow to download, process, and annotate genomic and transcriptomic data that can then be fed to NovelTree (see next point). The input sequences are all from chelicerate species and are documented [here](https://github.com/Arcadia-Science/2023-chelicerate-analysis/blob/main/inputs/samples.tsv). This repository also annotated these sequences and that metadata is now incorporated into the file [2024-06-26-top-positive-significant-clusters-orthogroups-annotations.tsv.gz](inputs/2024-06-26-top-positive-significant-clusters-orthogroups-annotations.tsv.gz). 
 2. **Ticks on a Tree NovelTree run**: [NovelTree](https://github.com/Arcadia-Science/noveltree) applied to the curated chelicerate data set. The input data set to NovelTree is protein sequences (either genome gene annotations or open reading frames predicted from transcriptomes). NovelTree applies evolutionary analyses to identify proteins that are "novel" under models of speciation, loss, or transfer. 
 3. [**Ticks on a Tree trait mapping**](https://github.com/Arcadia-Science/2024-ticks-on-a-tree): trait mapping applied to the results of the ToT NovelTree run to identify proteins (from clusters of orthologous groups) that are associated with the itch-suppression trait. The protein sequences associated with itch suppression are recorded in the file [`2024-06-26-top-positive-significant-clusters-orthogroups-proteins.fasta.gz`](./inputs/2024-06-26-top-positive-significant-clusters-orthogroups-proteins.fasta.gz). To see how these sequences were generated, see [here](https://github.com/Arcadia-Science/2024-ticks-on-a-tree/tree/main?tab=readme-ov-file#analysis-of-clusters-of-orthogroups-positively-associated-with-itch-suppression).
@@ -86,8 +87,8 @@ We ran the notebooks using the `envs/tidyjupyter.yml` environment.
 
 ## Results 
 
-We initially predicted 631 peptides (602 distinct sequences) from the 3,534 input protein sequences.
-These 631 peptides were predicted from proteins in 37 orthogroups.
+We started with 3,534 input protein sequences from 78 orthogroups.
+We initially predicted 631 peptides (602 distinct sequences) in 37 orthogroups.
 We applied the following initial filters (see [this notebook](./notebooks/20240626-02-combine-peptide-predictions-with-metadata.ipynb)):
 * Filtered (removed) propeptides predicted by DeepPeptide. DeepPeptide uses the [UniProt definition of a propeptide](https://www.uniprot.org/help/propep), a part of a protein that is cleaved during maturation or activation. Once cleaved, a propeptide generally has no independent biological function. This reduced the number of peptide predictions to 308 (305 distinct sequences) in 32 orthogroups.
 * Filtered (removed) peptides in orthogroups where no peptide had a hit to a predicted peptide from a [tick salivary gland transcriptome](https://github.com/Arcadia-Science/2024-tick-sg-peptides-tsa/). We want to target things expressed in the tick salivary gland because they are more likely to be biologically active in itch suppression. However, we don’t know if the tick salivary gland transcriptomes we worked with are complete (many are heavily filtered) so we relaxed this filter to function at the orthogroup level. This filter reduced the number of peptides down to 281 (278 distinct peptide sequences). These peptides were from 13 orthogroups and 206 clusters (mmseqs2 80% identity).
@@ -98,7 +99,7 @@ Using these sequences, we then further filtered to to select the sequences most 
 
 These filters gave us a set of 88 peptides from 3 orthogroups.
 We then selected peptides within each of these orthogroups to synthesize.
-We made selections based on ease of synthesis, solubility, similar peptide expressed in tick salivary gland transcriptome, and similarity it other peptides in the group.
+We made selections based on [ease of synthesis & solubility](https://www.genscript.com/tools/peptide%2danalyzing%2dtool), similar peptide expressed in tick salivary gland transcriptome, and similarity it other peptides in the group.
 We ended up with 12 peptides (5 from OG0008102, 3 from OG0001774, 4 from OG0000880).
 
 ### Compute Specifications
