@@ -1,0 +1,3 @@
+input_dir: "inputs/"
+output_dir: "outputs/ToT_20241125"
+orfs_amino_acids: "input_data/ToT_20241125/2024-11-25-top-positive-significant-clusters-orthogroups-proteins.fasta.gz"
