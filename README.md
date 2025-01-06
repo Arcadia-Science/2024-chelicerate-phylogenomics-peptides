@@ -26,8 +26,7 @@ snakemake -s analyze-peptigate-outputs.snakefile --software-deployment-method co
 
 ## Data
 
-This repository analyzes the outputs of four previous analyses to predict peptide sequences from proteins that are associated with itch suppression.
-These analyses were previous pilots or work done by others at Arcadia.
+This repository analyzes the outputs of four previous analyses to predict peptide sequences from proteins that are associated with suppression of host detection (see pub, ["Comparative phylogenomic analysis of chelicerates points to gene families associated with long-term suppression of host detection"](https://doi.org/10.57844/arcadia-4e3b-bbea) or [this GitHub repo](https://github.com/Arcadia-Science/2024-chelicerate-phylogenomics/tree/v1.0).)
 The four upstream analyses are:
 1. [**protein-data-curation**](https://github.com/Arcadia-Science/protein-data-curation/): This repository provides a workflow to download, process, and annotate genomic and transcriptomic data that can then be fed to NovelTree (see next point). The input sequences are all from chelicerate species and are documented [here](https://github.com/Arcadia-Science/2023-chelicerate-analysis/blob/main/inputs/samples.tsv). This repository also annotated these sequences and that metadata is now incorporated into the file [2024-06-26-top-positive-significant-clusters-orthogroups-annotations.tsv.gz](inputs/2024-06-26-top-positive-significant-clusters-orthogroups-annotations.tsv.gz). 
 2. **Ticks on a Tree NovelTree run**: [NovelTree](https://github.com/Arcadia-Science/noveltree) applied to the curated chelicerate data set. The input data set to NovelTree is protein sequences (either genome gene annotations or open reading frames predicted from transcriptomes). NovelTree applies evolutionary analyses to identify proteins that are "novel" under models of speciation, loss, or transfer. 
