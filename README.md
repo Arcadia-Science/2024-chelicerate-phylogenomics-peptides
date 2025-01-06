@@ -31,7 +31,7 @@ These analyses were previous pilots or work done by others at Arcadia.
 The four upstream analyses are:
 1. [**protein-data-curation**](https://github.com/Arcadia-Science/protein-data-curation/): This repository provides a workflow to download, process, and annotate genomic and transcriptomic data that can then be fed to NovelTree (see next point). The input sequences are all from chelicerate species and are documented [here](https://github.com/Arcadia-Science/2023-chelicerate-analysis/blob/main/inputs/samples.tsv). This repository also annotated these sequences and that metadata is now incorporated into the file [2024-06-26-top-positive-significant-clusters-orthogroups-annotations.tsv.gz](inputs/2024-06-26-top-positive-significant-clusters-orthogroups-annotations.tsv.gz). 
 2. **Ticks on a Tree NovelTree run**: [NovelTree](https://github.com/Arcadia-Science/noveltree) applied to the curated chelicerate data set. The input data set to NovelTree is protein sequences (either genome gene annotations or open reading frames predicted from transcriptomes). NovelTree applies evolutionary analyses to identify proteins that are "novel" under models of speciation, loss, or transfer. 
-3. [**Ticks on a Tree trait mapping**](https://github.com/Arcadia-Science/2024-ticks-on-a-tree): trait mapping applied to the results of the ToT NovelTree run to identify proteins (from clusters of orthologous groups) that are associated with the itch-suppression trait. The protein sequences associated with itch suppression are recorded in the file [`2024-06-26-top-positive-significant-clusters-orthogroups-proteins.fasta.gz`](./inputs/2024-06-26-top-positive-significant-clusters-orthogroups-proteins.fasta.gz). To see how these sequences were generated, see [here](https://github.com/Arcadia-Science/2024-ticks-on-a-tree/tree/main?tab=readme-ov-file#analysis-of-clusters-of-orthogroups-positively-associated-with-itch-suppression).
+3. [**Ticks on a Tree trait mapping**](https://github.com/Arcadia-Science/2024-ticks-on-a-tree): trait mapping applied to the results of the ToT NovelTree run to identify proteins (from clusters of orthologous groups) that are associated with the itch-suppression trait. The protein sequences associated with itch suppression are recorded in the file [2024-06-26-top-positive-significant-clusters-orthogroups-proteins.fasta.gz](./inputs/2024-06-26-top-positive-significant-clusters-orthogroups-proteins.fasta.gz). To see how these sequences were generated, see [here](https://github.com/Arcadia-Science/2024-ticks-on-a-tree/tree/main?tab=readme-ov-file#analysis-of-clusters-of-orthogroups-positively-associated-with-itch-suppression).
 4. [**Tick salivary gland transcriptome peptides**](https://github.com/Arcadia-Science/2024-tick-sg-peptides-tsa/): peptide sequences predicted from publicly available tick salivary gland transcriptomes. The results from this analysis are in the file [tsa_sg_peptides.faa.gz](inputs/tsa_sg_peptides.faa.gz). 
 
 ## Overview
@@ -54,10 +54,11 @@ snakemake -s protein_as_input.snakefile --software-deployment-method conda -j 1 
 ```
 
 where the `tot_protein_peptigate_config.yml` looked like:
+(Note that the FASTA file is not compressed, but is stored in this repo in compressed format to save space.)
 ```
 input_dir: "inputs/"
 output_dir: "outputs/ToT_20240626"
-orfs_amino_acids: "input_data/ToT_20240626/2024-06-26-top-positive-significant-clusters-orthogroups-proteins.fasta.gz"
+orfs_amino_acids: "input_data/ToT_20240626/2024-06-26-top-positive-significant-clusters-orthogroups-proteins.fasta"
 ```
 
 With these peptide predictions, we then proceeded with the rest of the analysis.
@@ -79,19 +80,19 @@ This snakefile:
 Lastly, we ran the following [notebooks](./notebooks) to combine and filter the results to produce the most promising candidates for peptides that may suppress itch. 
 We ran the notebooks using the `envs/tidyjupyter.yml` environment.
 
-* [20240626-00-explore-peptide-results.ipynb](./notebooks/20240626-00-explore-peptide-results.ipynb): Initial exploration of results and metadata. This notebook is messy and was more of scratch space, but I included it because it has some useful visualizations.
-* [20240626-01-combine-traitmapping-info-with-peptide-predictions.ipynb](./notebooks/20240626-01-combine-traitmapping-info-with-peptide-predictions.ipynb): combines information from trait mapping anaylysis and peptide predictions and summarizes information about peptide predictions per orthogroup.
-* [20240626-02-combine-peptide-predictions-with-metadata.ipynb](./notebooks/20240626-02-combine-peptide-predictions-with-metadata.ipynb): combines peptide predictions with peptide metadata.
-* [20240626-03-peptides-into-pools.ipynb](./notebooks/20240626-03-peptides-into-pools.ipynb): documents the rationale for selecting peptides for synthesis.
-* [20240628-04-pub-numbers-and-figures.ipynb](./notebooks/20240628-04-pub-numbers-and-figures.ipynb): additional analysis and summaries for results presented in the pub about this project.
+* [20241125-00-explore-peptide-results.ipynb](./notebooks/20241125-00-explore-peptide-results.ipynb): Initial exploration of results and metadata. This notebook is messy and was more of scratch space, but I included it because it has some useful visualizations.
+* [20241125-01-combine-traitmapping-info-with-peptide-predictions.ipynb](./notebooks/20241125-01-combine-traitmapping-info-with-peptide-predictions.ipynb): combines information from trait mapping anaylysis and peptide predictions and summarizes information about peptide predictions per orthogroup.
+* [20241125-02-combine-peptide-predictions-with-metadata.ipynb](./notebooks/20241125-02-combine-peptide-predictions-with-metadata.ipynb): combines peptide predictions with peptide metadata.
+* [20241125-03-peptides-into-pools.ipynb](./notebooks/20241125-03-peptides-into-pools.ipynb): documents the rationale for selecting peptides for synthesis.
+* [20241125-04-pub-numbers-and-figures.ipynb](./notebooks/20241125-04-pub-numbers-and-figures.ipynb): additional analysis and summaries for results presented in the pub about this project.
 
 ## Results 
 
-We started with 3,534 input protein sequences from 78 orthogroups.
-We initially predicted 631 peptides (602 distinct sequences) in 37 orthogroups.
-We applied the following initial filters (see [this notebook](./notebooks/20240626-02-combine-peptide-predictions-with-metadata.ipynb)):
-* Filtered (removed) propeptides predicted by DeepPeptide. DeepPeptide uses the [UniProt definition of a propeptide](https://www.uniprot.org/help/propep), a part of a protein that is cleaved during maturation or activation. Once cleaved, a propeptide generally has no independent biological function. This reduced the number of peptide predictions to 308 (305 distinct sequences) in 32 orthogroups.
-* Filtered (removed) peptides in orthogroups where no peptide had a hit to a predicted peptide from a [tick salivary gland transcriptome](https://github.com/Arcadia-Science/2024-tick-sg-peptides-tsa/). We want to target things expressed in the tick salivary gland because they are more likely to be biologically active in itch suppression. However, we don’t know if the tick salivary gland transcriptomes we worked with are complete (many are heavily filtered) so we relaxed this filter to function at the orthogroup level. This filter reduced the number of peptides down to 281 (278 distinct peptide sequences). These peptides were from 13 orthogroups and 206 clusters (mmseqs2 80% identity).
+We started with 3,690 input protein sequences from 87 orthogroups.
+We initially predicted 741 peptides (712 distinct sequences) in 46 orthogroups.
+We applied the following initial filters (see [this notebook](./notebooks/20241125-02-combine-peptide-predictions-with-metadata.ipynb)):
+* Filtered (removed) propeptides predicted by DeepPeptide. DeepPeptide uses the [UniProt definition of a propeptide](https://www.uniprot.org/help/propep), a part of a protein that is cleaved during maturation or activation. Once cleaved, a propeptide generally has no independent biological function. This reduced the number of peptide predictions to 356 (353 distinct sequences) in 41 orthogroups.
+* Filtered (removed) peptides in orthogroups where no peptide had a hit to a predicted peptide from a [tick salivary gland transcriptome](https://github.com/Arcadia-Science/2024-tick-sg-peptides-tsa/). We want to target things expressed in the tick salivary gland because they are more likely to be biologically active in itch suppression. However, we don’t know if the tick salivary gland transcriptomes we worked with are complete (many are heavily filtered) so we relaxed this filter to function at the orthogroup level. This filter reduced the number of peptides down to 314 (311 distinct peptide sequences). These peptides were from 16 orthogroups and 237 clusters (mmseqs2 80% identity).
 
 Using these sequences, we then further filtered to to select the sequences most likely to suppress itch and easiest to work with for experimental validation (see [this notebook](./notebooks/20240626-03-peptides-into-pools.ipynb)):
 * Filtered to orthogroups where the majority of proteins had a predicted peptide. We were most interested in orthogroups where the majority of predicted peptides were of the same type (sORF or cleavage), although we did not use this as a strict filtering class.
