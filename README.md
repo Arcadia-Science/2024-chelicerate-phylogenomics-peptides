@@ -1,4 +1,4 @@
-# Predicting peptides from Ticks on a Tree & Trait Mapping outputs 
+# Predicting peptides from chelicerate proteins associated with host detection suppression 
 
 [![run with conda](http://img.shields.io/badge/run%20with-conda-3EB049?labelColor=000000&logo=anaconda)](https://docs.conda.io/projects/miniconda/en/latest/)
 [![Snakemake](https://img.shields.io/badge/snakemake--green)](https://snakemake.readthedocs.io/en/stable/)
