@@ -6,7 +6,8 @@
 ## Purpose
 
 This repository predicts peptides from chelicerate species that are associated with host detection suppression.
-In this context, we refer to suppression of the triad of inflammation, pain, and itch as "host detection suppression." 
+In this context, we refer to suppression of the triad of inflammation, pain, and itch as "host detection suppression."
+This repository is associated with the pub, ["Predicting peptides from tick salivary glands that suppress host detection."](https://doi.org/https://doi.org/10.57844/arcadia-gfhy-d2f3)
 
 ## Installation and Setup
 
@@ -88,17 +89,19 @@ We ran the notebooks using the `envs/tidyjupyter.yml` environment.
 
 ## Results 
 
-We started with 3,534 input protein sequences from 78 orthogroups.
-We initially predicted 631 peptides (602 distinct sequences) in 37 orthogroups.
+We started with 3,690 input protein sequences from 87 orthogroups.
+We initially predicted 741 peptides (712 distinct sequences) in 46 orthogroups.
 We applied the following initial filters (see [this notebook](./notebooks/20240626-02-combine-peptide-predictions-with-metadata.ipynb)):
-* Filtered (removed) propeptides predicted by DeepPeptide. DeepPeptide uses the [UniProt definition of a propeptide](https://www.uniprot.org/help/propep), a part of a protein that's cleaved during maturation or activation. Once cleaved, a propeptide generally has no independent biological function. This reduced the number of peptide predictions to 308 (305 distinct sequences) in 32 orthogroups.
-* Filtered (removed) peptides in orthogroups where no peptide had a hit to a predicted peptide from a [tick salivary gland transcriptome](https://github.com/Arcadia-Science/2024-tick-sg-peptides-tsa/). We want to target things expressed in the tick salivary gland because they're more likely to be biologically active in host detection suppression. However, we don’t know if the tick salivary gland transcriptomes we worked with are complete (many are heavily filtered) so we relaxed this filter to function at the orthogroup level. This filter reduced the number of peptides down to 281 (278 distinct peptide sequences). These peptides were from 13 orthogroups and 206 clusters (MMseqs2 80% identity).
+* Filtered (removed) propeptides predicted by DeepPeptide. DeepPeptide uses the [UniProt definition of a propeptide](https://www.uniprot.org/help/propep), a part of a protein that's cleaved during maturation or activation. Once cleaved, a propeptide generally has no independent biological function.
+* Filtered (removed) peptides in orthogroups where no peptide had a hit to a predicted peptide from a [tick salivary gland transcriptome](https://github.com/Arcadia-Science/2024-tick-sg-peptides-tsa/). We want to target things expressed in the tick salivary gland because they're more likely to be biologically active in host detection suppression. However, we don’t know if the tick salivary gland transcriptomes we worked with are complete (many are heavily filtered) so we relaxed this filter to function at the orthogroup level.
+
+These filters reduced the number of peptides to 314 peptides (311 distinct sequences) in 16 orthogroups.
 
 Using these sequences, we then further filtered to select the sequences most likely to suppress host detection and easiest to work with for experimental validation (see [this notebook](./notebooks/20240626-03-peptides-into-pools.ipynb)):
 * Filtered to orthogroups where the majority of proteins had a predicted peptide. We were most interested in orthogroups where the majority of predicted peptides were of the same type (sORF or cleavage), although we did not use this as a strict filtering class.
 * Filtered to orthogroups where the majority of peptides (sORF) or parent proteins (cleavage) had signal peptides. We only kept peptides with signal peptides.
 
-These filters gave us a set of 88 peptides from 3 orthogroups.
+These filters gave us a set of 89 peptides from 3 orthogroups.
 We then selected peptides within each of these orthogroups to synthesize.
 We made selections based on [ease of synthesis & solubility](https://www.genscript.com/tools/peptide%2danalyzing%2dtool), similar peptide expressed in tick salivary gland transcriptome, and similarity it other peptides in the group.
 We ended up with 12 peptides (5 from OG0008102, 3 from OG0001774, 4 from OG0000880).
