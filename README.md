@@ -6,7 +6,8 @@
 ## Purpose
 
 This repository predicts peptides from chelicerate species that are associated with host detection suppression.
-In this context, we refer to suppression of the triad of inflammation, pain, and itch as "host detection suppression." 
+In this context, we refer to suppression of the triad of inflammation, pain, and itch as "host detection suppression."
+This repository is associated with the pub, ["Predicting peptides from tick salivary glands that suppress host detection."](https://doi.org/https://doi.org/10.57844/arcadia-gfhy-d2f3)
 
 ## Installation and Setup
 
